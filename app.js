@@ -43,7 +43,8 @@ app.use(function(err, req, res, next) {
         status: "error",
         message: err.message,
         code: err.code,
-        source: err.source
+        source: err.source,
+        detail: err.detail
     });
 });
 

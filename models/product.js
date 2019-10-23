@@ -4,8 +4,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        description: DataTypes.STRING,
-        shortDescription: DataTypes.STRING,
+        description: DataTypes.TEXT,
+        shortDescription: DataTypes.TEXT,
         availableCount: DataTypes.INTEGER,
         originalPrice: DataTypes.FLOAT,
         sellPrice: DataTypes.FLOAT,
