@@ -15,6 +15,7 @@ function needAuthentication(required = true) {
                 return;
             } else {
                 next();
+                return;
             }
         }
 
@@ -31,6 +32,7 @@ function needAuthentication(required = true) {
             }
 
             req.user = user;
+            req.user.isAdmin = user.username === "admin";
             next();
         } catch (err) {
             if (err.name === "TokenExpiredError") {
@@ -65,7 +67,7 @@ function needAdminRole(req, res, next) {
         throw new Error("This middleware must be behind needAuthentication");
     }
 
-    if (user.username !== "admin") {
+    if (!user.isAdmin) {
         next(newError("Only admin can access this route", 403, ErrorTypes.NO_PERMISSION));
         return;
     }

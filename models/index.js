@@ -31,14 +31,16 @@ Object.keys(Db).forEach(modelName => {
 });
 
 sequelize.sync({ [config.db.sync]: true }).then(() => {
-    Db.User.create({
-        username: "admin",
-        password: "admin",
-        email: "admin@gmail.com",
-        firstName: "Admin",
-        lastName: "ViTinhVui",
-        profileImage: "http://icons.iconarchive.com/icons/aha-soft/free-large-boss/512/Admin-icon.png"
-    });
+    if (config.db.sync === "force") {
+        Db.User.upsert({
+            username: "admin",
+            password: "admin",
+            email: "admin@gmail.com",
+            firstName: "Admin",
+            lastName: "ViTinhVui",
+            profileImage: "http://icons.iconarchive.com/icons/aha-soft/free-large-boss/512/Admin-icon.png"
+        });
+    }
 });
 
 Db.sequelize = sequelize;

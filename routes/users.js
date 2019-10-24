@@ -1,19 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const Db = require("../models");
+const { getUsers, getMe } = require("../controllers/user_controller");
+const { needAuthentication } = require("../middlewares/auth_middleware");
 
-const User = Db.User;
-
-/* GET users listing. */
-router.get("/", async function(req, res, next) {
-    try {
-        const users = await User.findBy("email", "ntncsebku@gmail.com", true);
-        console.log("=====", users);
-        res.send(users);
-    } catch (e) {
-        next(e);
-    }
-});
+router.get("/", getUsers);
+router.get("/me", needAuthentication(), getMe);
 
 module.exports = router;

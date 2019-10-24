@@ -24,6 +24,23 @@ const CreateProductValidator = Joi.object().keys({
     attributes: Joi.array().items(ProductAttributeValidator)
 });
 
+const ProductFilterValidator = Joi.object().keys({
+    category: Joi.string(),
+    brand: Joi.string(),
+    line: Joi.string(),
+    limit: Joi.number().integer(),
+    offset: Joi.number().integer()
+});
+
+const PathValidator = Joi.object().keys({
+    path: Joi.string().required(),
+    value: Joi.any()
+});
+
+const UpdateProductValidator = Joi.array().items(PathValidator);
+
 module.exports = {
-    CreateProductValidator
+    CreateProductValidator,
+    ProductFilterValidator,
+    UpdateProductValidator
 };

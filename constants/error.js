@@ -4,6 +4,11 @@ const USER_NOT_FOUND = -103;
 const NO_PERMISSION = -104;
 
 const CREATE_PRODUCT_FAILED = -201;
+const PRODUCT_NOT_FOUND = -202;
+const UPDATE_PRODUCT_FAILED = -203;
+
+const CATEGORY_NOT_FOUND = -301;
+const PRODUCTLINE_NOT_FOUND = -302;
 
 module.exports = {
     ErrorTypes: {
@@ -11,6 +16,12 @@ module.exports = {
         PASSWORD_NOT_MATCHED,
         USER_NOT_FOUND,
         NO_PERMISSION,
-        CREATE_PRODUCT_FAILED
+
+        CREATE_PRODUCT_FAILED,
+        PRODUCT_NOT_FOUND,
+        UPDATE_PRODUCT_FAILED,
+
+        CATEGORY_NOT_FOUND,
+        PRODUCTLINE_NOT_FOUND
     }
 };

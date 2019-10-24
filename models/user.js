@@ -22,12 +22,16 @@ module.exports = (sequelize, DataTypes) => {
         models.User.hasMany(models.Order);
     };
 
-    User.findBy = function(field, value, many = false) {
-        if (many) {
+    User.findBy = function(field, value, options) {
+        if (options.many) {
             return this.findAll({ where: { [field]: value } });
         }
 
         return this.findOne({ where: { [field]: value } });
+    };
+
+    User.findMany = function() {
+        return this.findAll();
     };
 
     User.find = function(id) {

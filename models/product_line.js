@@ -2,13 +2,11 @@ module.exports = (sequelize, DataTypes) => {
     const ProductLine = sequelize.define("productLine", {
         brand: {
             type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
+            allowNull: false
         },
         line: {
             type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
+            allowNull: false
         }
     });
 

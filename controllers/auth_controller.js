@@ -1,7 +1,7 @@
 const { transformFacebookUser } = require("../utils/auth_util");
 const Db = require("../models");
 const { signAccessToken } = require("../utils/auth_util");
-const { toUserDto } = require("../mappers");
+const { toMeDto } = require("../mappers");
 const { newSuccess, newError } = require("../utils/http_util");
 const { LogInValidator } = require("../validators/login_validator");
 const { ErrorTypes } = require("../constants/error");
@@ -23,7 +23,7 @@ async function logInWithFacebook(req, res, next) {
         }
 
         const accessToken = signAccessToken(user);
-        const userDto = toUserDto(user);
+        const userDto = toMeDto(user);
 
         res.status(200).send(newSuccess({ accessToken, user: userDto }, "Login successfully"));
     } catch (e) {
@@ -52,7 +52,7 @@ async function logIn(req, res, next) {
     }
 
     const accessToken = signAccessToken(user);
-    const userDto = toUserDto(user);
+    const userDto = toMeDto(user);
 
     res.status(200).send(newSuccess({ accessToken, user: userDto }, "Login successfully"));
 }

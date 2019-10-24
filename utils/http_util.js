@@ -6,7 +6,7 @@ function newSuccess(data = null, message = null) {
     };
 }
 
-function newError(message = null, status, code = "undefined", source = null, detail) {
+function newError(message = null, status, code = "undefined", source, detail) {
     const err = new Error(message);
 
     err.status = status;
