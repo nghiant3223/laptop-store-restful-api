@@ -25,14 +25,19 @@ function toProductDto(product, options = { isAdminConsumer: false }) {
         dto.updatedAt = product.updatedAt;
     }
 
-    dto.category = product.category && product.category.name;
-    dto.productLine = product.productLine && _.pick(product.productLine, ["brand", "line"]);
+    dto.category = product.category && _.pick(product.productLine, ["id", "name"]);
+    dto.productLine = product.productLine && _.pick(product.productLine, ["id", "brand", "line"]);
 
     return dto;
+}
+
+function toCategoryDto(category) {
+    return _.pick(category, ["id", "name", "parentId"]);
 }
 
 module.exports = {
     toUserDto,
     toMeDto,
-    toProductDto
+    toProductDto,
+    toCategoryDto
 };

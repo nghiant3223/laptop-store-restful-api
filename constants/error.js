@@ -8,7 +8,10 @@ const PRODUCT_NOT_FOUND = -202;
 const UPDATE_PRODUCT_FAILED = -203;
 
 const CATEGORY_NOT_FOUND = -301;
-const PRODUCTLINE_NOT_FOUND = -302;
+const CATEGORY_ALREADY_EXIST = -302;
+const INVALID_CATEGORY_DATA = -304;
+
+const PRODUCTLINE_NOT_FOUND = -402;
 
 module.exports = {
     ErrorTypes: {
@@ -22,6 +25,9 @@ module.exports = {
         UPDATE_PRODUCT_FAILED,
 
         CATEGORY_NOT_FOUND,
+        CATEGORY_ALREADY_EXIST,
+        INVALID_CATEGORY_DATA,
+
         PRODUCTLINE_NOT_FOUND
     }
 };

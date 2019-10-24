@@ -3,9 +3,9 @@ const { newSuccess, newError } = require("../utils/http_util");
 const { ErrorTypes } = require("../constants/error");
 const {
     CreateProductValidator,
-    ProductFilterValidator,
-    UpdateProductValidator
+    ProductFilterValidator
 } = require("../validators/product_validator");
+const { UpdateValidator } = require("../validators/common_validator");
 const { extractJoiErrorDetail } = require("../utils/error_util");
 const { toProductDto } = require("../mappers");
 
@@ -17,7 +17,7 @@ async function createProduct(req, res, next) {
     if (error != null) {
         next(
             newError(
-                "Fail to create product",
+                "Invalid product data",
                 422,
                 ErrorTypes.CREATE_PRODUCT_FAILED,
                 body,
@@ -94,12 +94,12 @@ async function updateProduct(req, res, next) {
         return;
     }
 
-    const { error, value: body } = UpdateProductValidator.validate(req.body);
+    const { error, value: body } = UpdateValidator.validate(req.body);
 
     if (error != null) {
         next(
             newError(
-                "Fail to update product",
+                "Invalid update data",
                 422,
                 ErrorTypes.UPDATE_PRODUCT_FAILED,
                 body,

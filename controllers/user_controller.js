@@ -6,7 +6,7 @@ const { signAccessToken } = require("../utils/auth_util");
 const User = Db.User;
 
 async function getUsers(req, res, next) {
-    const users = await User.findMany();
+    const users = await User.findAll();
     const dtos = users.map(u => toUserDto(u));
     res.status(200).send(newSuccess(dtos, "Get user successfully"));
 }

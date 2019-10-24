@@ -30,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         return this.findOne({ where: { [field]: value } });
     };
 
-    User.findMany = function() {
-        return this.findAll();
-    };
-
     User.find = function(id) {
         return this.findByPk(id);
     };
