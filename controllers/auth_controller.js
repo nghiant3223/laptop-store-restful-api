@@ -5,6 +5,7 @@ const { toMeDto } = require("../mappers");
 const { newSuccess, newError } = require("../utils/http_util");
 const { LogInValidator } = require("../validators/login_validator");
 const { ErrorTypes } = require("../constants/error");
+const { extractJoiErrorDetail } = require("../utils/error_util");
 
 const User = Db.User;
 
@@ -35,7 +36,15 @@ async function logIn(req, res, next) {
     const { error, value: body } = LogInValidator.validate(req.body);
 
     if (error != null) {
-        next(newError("Login failed", 401, ErrorTypes.LOGIN_FORM_FAILED, req.body));
+        next(
+            newError(
+                "Invalid login data",
+                401,
+                ErrorTypes.LOGIN_FORM_FAILED,
+                req.body,
+                extractJoiErrorDetail(error)
+            )
+        );
         return;
     }
 
@@ -43,11 +52,11 @@ async function logIn(req, res, next) {
 
     const user = await User.findBy("username", username);
     if (user == null) {
-        next(newError("Login failed", 401, ErrorTypes.USER_NOT_FOUND, req.body));
+        next(newError("Username not found", 401, ErrorTypes.USER_NOT_FOUND, req.body));
         return;
     }
     if (user.password !== password) {
-        next(newError("Login failed", 401, ErrorTypes.PASSWORD_NOT_MATCHED, req.body));
+        next(newError("Password not match", 401, ErrorTypes.PASSWORD_NOT_MATCHED, req.body));
         return;
     }
 

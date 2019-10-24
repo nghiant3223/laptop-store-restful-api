@@ -38,7 +38,18 @@ sequelize.sync({ [config.db.sync]: true }).then(() => {
             email: "admin@gmail.com",
             firstName: "Admin",
             lastName: "ViTinhVui",
-            profileImage: "http://icons.iconarchive.com/icons/aha-soft/free-large-boss/512/Admin-icon.png"
+            profileImage:
+                "http://icons.iconarchive.com/icons/aha-soft/free-large-boss/512/Admin-icon.png"
+        });
+
+        Db.User.upsert({
+            username: "user",
+            password: "user",
+            email: "user@gmail.com",
+            firstName: "User",
+            lastName: "ViTinhVui",
+            profileImage:
+                "http://icons.iconarchive.com/icons/aha-soft/free-large-boss/512/Admin-icon.png"
         });
     }
 });

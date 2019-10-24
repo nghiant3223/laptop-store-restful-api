@@ -11,15 +11,7 @@ async function getUsers(req, res, next) {
     res.status(200).send(newSuccess(dtos, "Get user successfully"));
 }
 
-async function getMe(req, res, next) {
-    const { user } = req;
-    const accessToken = signAccessToken(user);
-    const userDto = toMeDto(user);
-
-    res.status(200).send(newSuccess({ accessToken, user: userDto }, "Login successfully"));
-}
 
 module.exports = {
     getUsers,
-    getMe
 };

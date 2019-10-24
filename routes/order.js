@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const { getUsers } = require("../controllers/user_controller");
+const { createOrder } = require("../controllers/order_controller");
 const { needAuthentication, needAdminRole } = require("../middlewares/auth_middleware");
 
-router.get("/", needAuthentication(), needAdminRole, getUsers);
+router.post("/", needAuthentication(), createOrder);
 
 module.exports = router;

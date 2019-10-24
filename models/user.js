@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         models.User.hasMany(models.Order);
     };
 
-    User.findBy = function(field, value, options) {
+    User.findBy = function(field, value, options = {}) {
         if (options.many) {
             return this.findAll({ where: { [field]: value } });
         }

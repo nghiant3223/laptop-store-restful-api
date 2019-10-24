@@ -14,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         availableCount: DataTypes.INTEGER,
         originalPrice: DataTypes.FLOAT,
         sellPrice: DataTypes.FLOAT,
-        attributes: DataTypes.JSON
+        attributes: DataTypes.JSON,
+        availableCount: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        }
     });
 
     Product.associate = function(models) {
@@ -34,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         return product.destroy();
     };
 
-    Product.findBy = function(field, value, options) {
+    Product.findBy = function(field, value, options = {}) {
         const queryOptions = {};
 
         if (options.limit) {
@@ -58,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
         });
     };
 
-    Product.filter = function(filter, options) {
+    Product.filter = function(filter, options = {}) {
         const queryOptions = {};
 
         if (options.limit) {

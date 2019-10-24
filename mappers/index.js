@@ -8,7 +8,7 @@ function toMeDto(user) {
     return _.pick(user, ["firstName", "lastName", "profileImage"]);
 }
 
-function toProductDto(product, options = { isAdminConsumer: false }) {
+function toProductDto(product, options = {}) {
     const dto = _.pick(product, [
         "id",
         "name",
@@ -35,9 +35,22 @@ function toCategoryDto(category) {
     return _.pick(category, ["id", "name", "parentId"]);
 }
 
+function toOrderDto(order, options = {}) {
+    const dto = _.pick(order, [
+        "paymentMethod",
+        "shipType",
+        "shipAddress",
+        "shipCity",
+        "shipDistrict",
+        "shipWard",
+        "note"
+    ]);
+}
+
 module.exports = {
     toUserDto,
     toMeDto,
     toProductDto,
-    toCategoryDto
+    toCategoryDto,
+    toOrderDto
 };

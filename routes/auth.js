@@ -5,6 +5,6 @@ const { logInWithFacebook, logIn } = require("../controllers/auth_controller");
 const { facebookAuthenticator } = require("../middlewares/social_middleware");
 
 router.post("/facebook", facebookAuthenticator, logInWithFacebook);
-router.post("/admin", logIn);
+router.post("/login", logIn);
 
 module.exports = router;
