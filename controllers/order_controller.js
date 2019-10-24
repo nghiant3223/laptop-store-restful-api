@@ -23,8 +23,12 @@ async function createOrder(req, res, next) {
         return;
     }
 
+    const { user } = req;
+
     try {
         const order = await Order.save(body);
+        await order.setOwner(user);
+
         const orderDto = toOrderDto(order);
         res.status(201).send(newSuccess(orderDto, "Create order successfully"));
     } catch (e) {

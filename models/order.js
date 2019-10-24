@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Order.associate = function(models) {
         models.Order.hasMany(models.OrderDetail);
+        models.Order.belongsTo(models.User, { as: "owner", foreignKey: "userId" });
     };
 
     Order.save = async function(order) {
