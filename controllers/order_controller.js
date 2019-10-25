@@ -29,13 +29,21 @@ async function createOrder(req, res, next) {
         const order = await Order.save(body);
         await order.setOwner(user);
 
-        const orderDto = toOrderDto(order);
+        const newOrder = await Order.find(order.id);
+        const orderDto = toOrderDto(newOrder);
         res.status(201).send(newSuccess(orderDto, "Create order successfully"));
     } catch (e) {
         next(e);
     }
 }
 
+async function getOrders(req, res, next) {
+    const orders = await Order.findMany();
+    const orderDtos = orders.map(o => toOrderDto(o, { isAdminConsumer: true }));
+    res.status(201).send(newSuccess(orderDtos, "Get orders successfully"));
+}
+
 module.exports = {
-    createOrder
+    createOrder,
+    getOrders
 };

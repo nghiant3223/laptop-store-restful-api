@@ -58,7 +58,8 @@ module.exports = (sequelize, DataTypes) => {
                         const detail = {
                             productId: item.productId,
                             quantity: item.quantity,
-                            unitPrice: product.sellPrice
+                            unitPrice: product.sellPrice,
+                            orderId: newOrder.id
                         };
                         await product.decrement("availableCount", {
                             by: item.quantity,
@@ -68,7 +69,6 @@ module.exports = (sequelize, DataTypes) => {
                     })
                 );
 
-                await Promise.all(orderDetails.map(detail => newOrder.setOrderDetails(detail)));
                 const returnedOrder = await this.findByPk(newOrder.id, {
                     include: [{ model: sequelize.models.orderDetail }],
                     transaction: t
@@ -85,8 +85,16 @@ module.exports = (sequelize, DataTypes) => {
         });
     };
 
-    Order.find = function(id) {
-        return this.findByPk(id);
+    Order.find = function(id, options = {}) {
+        return this.findByPk(id, {
+            include: [
+                {
+                    model: sequelize.models.orderDetail,
+                    include: [{ model: sequelize.models.product }]
+                },
+                { model: sequelize.models.user, as: "owner" }
+            ]
+        });
     };
 
     Order.findBy = function(field, value, options = {}) {
@@ -97,6 +105,37 @@ module.exports = (sequelize, DataTypes) => {
 
             return this.findOne({ where: { [field]: value } });
         }
+    };
+
+    Order.findMany = function(userId) {
+        if (userId) {
+            return this.findAll({
+                include: [
+                    {
+                        model: sequelize.models.orderDetail,
+                        include: [{ model: sequelize.models.product }]
+                    },
+                    {
+                        model: sequelize.models.user,
+                        as: "owner",
+                        where: { id: userId },
+                        required: true
+                    }
+                ],
+                order: [["createdAt", "DESC"]]
+            });
+        }
+
+        return this.findAll({
+            include: [
+                {
+                    model: sequelize.models.orderDetail,
+                    include: [{ model: sequelize.models.product }]
+                },
+                { model: sequelize.models.user, as: "owner" }
+            ],
+            order: [["createdAt", "DESC"]]
+        });
     };
 
     return Order;

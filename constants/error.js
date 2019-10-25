@@ -16,6 +16,8 @@ const PRODUCTLINE_NOT_FOUND = -402;
 
 const INVALID_ORDER_DATA = -501;
 
+const INVALID_QUERY_DATA = -601;
+
 module.exports = {
     ErrorTypes: {
         LOGIN_FORM_FAILED,
@@ -34,6 +36,8 @@ module.exports = {
 
         PRODUCTLINE_NOT_FOUND,
 
-        INVALID_ORDER_DATA
+        INVALID_ORDER_DATA,
+
+        INVALID_QUERY_DATA
     }
 };

@@ -30,9 +30,9 @@ Object.keys(Db).forEach(modelName => {
     Db[modelName].associate(Db);
 });
 
-sequelize.sync({ [config.db.sync]: true }).then(() => {
+sequelize.sync({ [config.db.sync]: true }).then(async () => {
     if (config.db.sync === "force") {
-        Db.User.upsert({
+        await Db.User.upsert({
             username: "admin",
             password: "admin",
             email: "admin@gmail.com",
@@ -42,7 +42,7 @@ sequelize.sync({ [config.db.sync]: true }).then(() => {
                 "http://icons.iconarchive.com/icons/aha-soft/free-large-boss/512/Admin-icon.png"
         });
 
-        Db.User.upsert({
+        await Db.User.upsert({
             username: "user",
             password: "user",
             email: "user@gmail.com",

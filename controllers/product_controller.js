@@ -62,6 +62,19 @@ async function getProduct(req, res, next) {
 async function getManyProducts(req, res, next) {
     const { error, value: query } = ProductFilterValidator.validate(req.query);
 
+    if (error != null) {
+        next(
+            newError(
+                "Invalid filter query",
+                422,
+                ErrorTypes.INVALID_QUERY_DATA,
+                req.query,
+                extractJoiErrorDetail(error)
+            )
+        );
+        return;
+    }
+
     const results = await Product.filter(
         {
             categories: query.category,

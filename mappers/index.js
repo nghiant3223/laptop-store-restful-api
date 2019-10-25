@@ -37,14 +37,28 @@ function toCategoryDto(category) {
 
 function toOrderDto(order, options = {}) {
     const dto = _.pick(order, [
+        "id",
         "paymentMethod",
         "shipType",
         "shipAddress",
         "shipCity",
         "shipDistrict",
         "shipWard",
-        "note"
+        "note",
+        "createdAt"
     ]);
+
+    if (options.isAdminConsumer) {
+        dto.owner = _.pick(dto.owner, ["id", "username"]);
+    }
+
+    dto.items = order.orderDetails.map(d => {
+        const detail = _.pick(d, ["id", "quantity", "discount", "unitPrice"]);
+        detail.name = d.product.name;
+        return detail;
+    });
+
+    return dto;
 }
 
 module.exports = {
