@@ -4,7 +4,7 @@ dotenv.config();
 module.exports = {
     db: {
         url: process.env.DB_URL,
-        // sync: "force"
+        sync: process.env.NODE_ENV !== "production" && "force"
     },
     facebook: {
         clientId: process.env.FB_CLIENT_ID,
