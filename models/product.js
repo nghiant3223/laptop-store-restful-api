@@ -2,6 +2,7 @@ const _ = require("lodash");
 const Op = require("sequelize").Op;
 const { ErrorTypes } = require("../constants/error");
 const { newError } = require("../utils/http_util");
+const { assignKeyValueToObject } = require("../utils/lang_util");
 
 module.exports = (sequelize, DataTypes) => {
     const Product = sequelize.define("product", {
@@ -67,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
         });
     };
 
-    Product.filter = function(filter, options = {}) {
+    Product.filter = async function(filter, options = {}) {
         const queryOptions = {};
 
         if (options.limit) {
@@ -101,12 +102,18 @@ module.exports = (sequelize, DataTypes) => {
             };
         }
 
-        let products = this.findAll({
+        let products = await this.findAll({
             include: [
                 { model: sequelize.models.category, required: false, where: categoryWhere },
                 { model: sequelize.models.productLine, required: false, where: productLineWhere }
             ],
-            ...queryOptions
+            ...queryOptions,
+            where: {
+                sellPrice: {
+                    [Op.lte]: filter.maxPrice || Infinity,
+                    [Op.gte]: filter.minPrice || 0
+                }
+            }
         });
 
         if (categories) {

@@ -92,7 +92,9 @@ async function getManyProducts(req, res, next) {
         {
             categories: query.category,
             brands: query.brand,
-            linenames: query.line
+            linenames: query.line,
+            minPrice: query.min_price,
+            maxPrice: query.max_price
         },
         {
             limit: query.limit,

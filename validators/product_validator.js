@@ -31,6 +31,8 @@ const ProductFilterValidator = Joi.object().keys({
     category: Joi.string(),
     brand: Joi.string(),
     line: Joi.string(),
+    min_price: Joi.number(),
+    max_price: Joi.number(),
     limit: Joi.number().integer(),
     offset: Joi.number().integer()
 });
