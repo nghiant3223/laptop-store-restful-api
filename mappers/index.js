@@ -25,8 +25,9 @@ function toProductDto(product, options = {}) {
         dto.updatedAt = product.updatedAt;
     }
 
-    dto.category = product.category && _.pick(product.productLine, ["id", "name"]);
-    dto.productLine = product.productLine && _.pick(product.productLine, ["id", "brand", "line"]);
+    dto.category = product.category && _.pick(product.category, ["id", "name"]);
+    dto.productLine = product.productLine && _.pick(product.productLine, ["id", "brand", "name"]);
+    dto.images = product.images && product.images.map(i => toImageDto(i));
 
     return dto;
 }
@@ -61,10 +62,20 @@ function toOrderDto(order, options = {}) {
     return dto;
 }
 
+function toProductLineDto(line) {
+    return _.pick(line, ["id", "brand", "name"]);
+}
+
+function toImageDto(image) {
+    return _.pick(image, ["id", "url"]);
+}
+
 module.exports = {
     toUserDto,
     toMeDto,
     toProductDto,
     toCategoryDto,
-    toOrderDto
+    toOrderDto,
+    toImageDto,
+    toProductLineDto
 };

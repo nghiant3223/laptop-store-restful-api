@@ -19,7 +19,7 @@ async function getMyOrders(req, res, next) {
 
     const orders = await Order.findMany(user.id);
     const orderDtos = orders.map(o => toOrderDto(o));
-    res.status(201).send(newSuccess(orderDtos, "Create order successfully"));
+    res.status(201).send(newSuccess(orderDtos, "Get orders successfully"));
 }
 
 module.exports = {

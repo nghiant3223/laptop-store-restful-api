@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Product.associate = function(models) {
+        models.Product.hasMany(models.Image);
         models.Product.belongsTo(models.ProductLine);
         models.Product.belongsTo(models.Category);
     };
@@ -58,7 +59,11 @@ module.exports = (sequelize, DataTypes) => {
 
     Product.find = function(id) {
         return this.findByPk(id, {
-            include: [{ model: sequelize.models.category }, { model: sequelize.models.productLine }]
+            include: [
+                { model: sequelize.models.category },
+                { model: sequelize.models.productLine },
+                { model: sequelize.models.image }
+            ]
         });
     };
 
@@ -73,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
             queryOptions.offset = options.offset;
         }
 
-        const { categories, brands, lines } = filter;
+        const { categories, brands, linenames } = filter;
 
         let categoryWhere = {};
         let productLineWhere = {};
@@ -90,9 +95,9 @@ module.exports = (sequelize, DataTypes) => {
             };
         }
 
-        if (lines) {
-            productLineWhere.line = {
-                [Op.or]: Array.isArray(lines) ? lines : [lines]
+        if (linenames) {
+            productLineWhere.name = {
+                [Op.or]: Array.isArray(linenames) ? linenames : [linenames]
             };
         }
 
@@ -108,7 +113,7 @@ module.exports = (sequelize, DataTypes) => {
             products = products.filter(p => p.category !== null);
         }
 
-        if (brands || lines) {
+        if (brands || linenames) {
             products = products.filter(p => p.productLine !== null);
         }
 

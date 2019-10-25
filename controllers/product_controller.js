@@ -1,3 +1,6 @@
+const path = require("path");
+const _ = require("lodash");
+
 const Db = require("../models");
 const { newSuccess, newError } = require("../utils/http_util");
 const { ErrorTypes } = require("../constants/error");
@@ -10,6 +13,9 @@ const { extractJoiErrorDetail } = require("../utils/error_util");
 const { toProductDto } = require("../mappers");
 
 const Product = Db.Product;
+const Image = Db.Image;
+const Category = Db.Category;
+const ProductLine = Db.ProductLine;
 
 async function createProduct(req, res, next) {
     const { error, value: body } = CreateProductValidator.validate(req.body);
@@ -19,7 +25,7 @@ async function createProduct(req, res, next) {
             newError(
                 "Invalid product data",
                 422,
-                ErrorTypes.CREATE_PRODUCT_FAILED,
+                ErrorTypes.INVALID_PRODUCT_DATA,
                 body,
                 extractJoiErrorDetail(error)
             )
@@ -27,11 +33,18 @@ async function createProduct(req, res, next) {
         return;
     }
 
-    try {
-        const product = await Product.save(body);
+    const category = body.categoryId && (await Category.findByPk(body.categoryId));
+    const productline = body.productLineId && (await ProductLine.findByPk(body.productLineId));
 
+    try {
+        const product = await Product.save(_.omit(body, ["categoryId", "productLineId"]));
+        productline != null && (await product.setProductLine(productline));
+        category != null && (await product.setCategory(category));
+        body.images && (await Image.saveMany(body.images, product.id));
+
+        const newlyCreatedProduct = await Product.find(product.id);
         const options = { isAdminConsumer: true };
-        const productDto = toProductDto(product, options);
+        const productDto = toProductDto(newlyCreatedProduct, options);
 
         res.status(201).send(newSuccess(productDto, "Create product successfully"));
     } catch (e) {
@@ -79,7 +92,7 @@ async function getManyProducts(req, res, next) {
         {
             categories: query.category,
             brands: query.brand,
-            lines: query.line
+            linenames: query.line
         },
         {
             limit: query.limit,

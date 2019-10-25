@@ -17,7 +17,7 @@ async function createCategory(req, res, next) {
                 "Invalid category data",
                 422,
                 ErrorTypes.INVALID_CATEGORY_DATA,
-                body,
+                req.body,
                 extractJoiErrorDetail(error)
             )
         );
@@ -68,7 +68,7 @@ async function deleteCategory(req, res, next) {
     }
 
     await Category.delete(category);
-    res.status(204).send(newSuccess(category, "Delete category successfully"));
+    res.status(204).send(newSuccess(null, "Delete category successfully"));
 }
 
 async function updateCategory(req, res, next) {
@@ -88,7 +88,7 @@ async function updateCategory(req, res, next) {
                 "Invalid update data",
                 422,
                 ErrorTypes.INVALID_CATEGORY_DATA,
-                body,
+                req.body,
                 extractJoiErrorDetail(error)
             )
         );

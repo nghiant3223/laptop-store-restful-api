@@ -16,7 +16,7 @@ async function createOrder(req, res, next) {
                 "Invalid order data",
                 422,
                 ErrorTypes.INVALID_ORDER_DATA,
-                body,
+                req.body,
                 extractJoiErrorDetail(error)
             )
         );

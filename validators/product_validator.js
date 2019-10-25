@@ -21,7 +21,10 @@ const CreateProductValidator = Joi.object().keys({
         .required(),
     originalPrice: Joi.number().required(),
     sellPrice: Joi.number().required(),
-    attributes: Joi.array().items(ProductAttributeValidator)
+    attributes: Joi.array().items(ProductAttributeValidator),
+    productLineId: Joi.number().integer(),
+    categoryId: Joi.number().integer(),
+    images: Joi.array().items(Joi.string())
 });
 
 const ProductFilterValidator = Joi.object().keys({

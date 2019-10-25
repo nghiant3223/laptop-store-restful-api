@@ -10,6 +10,8 @@ const { facebookTokenStrategy } = require("./middlewares/social_middleware");
 const config = require("./config");
 const apiRouter = require("./routes");
 
+global.appRoot = ".";
+
 const app = express();
 
 // view engine setup
